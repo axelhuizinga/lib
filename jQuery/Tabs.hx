@@ -6,27 +6,27 @@ import js.html.HtmlElement;
  * ...
  * @author axel@cunity.me
  */
-extern class Accordion implements Plugin
+extern class Tabs implements Plugin
 {
 	public var panels:Array<js.html.HtmlElement>;
 	public var selector:String;
 	
 	@:overload
-	public function accordion( op:String, ?field:String, ?val:Dynamic):Dynamic
+	public function tabs( op:String, ?field:String, ?val:Dynamic):Dynamic
 	{
-		return untyped this.accordion(op, field, val);
+		return untyped this.tabs(op, field, val);
 	};
 	
 	@:overload
-	public  function accordion(?options:Dynamic):JQuery
+	public  function tabs(?options:Dynamic):JQuery
 	{
-		return untyped this.accordion(options);
+		return untyped this.tabs(options);
 	}
 	
 	@:overload
 	public  function instance(?options:Dynamic):JQuery
 	{
-		return untyped this.accordion("instance");
+		return untyped this.tabs("instance");
 	}	
 	
 }
