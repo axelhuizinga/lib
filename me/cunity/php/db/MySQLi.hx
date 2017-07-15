@@ -5,6 +5,7 @@ import me.cunity.php.db.MySQLi_Result;
  * ...
  * @author axel@cunity.me
  */
+@:native('mysqli')
 extern class MySQLi
 {
 
@@ -26,6 +27,8 @@ extern class MySQLi
 	
 	public var error:String;
 	
+	public var host_info:String;
+	
 	public var field_count:Int;
 	
 	public var insert_id:EitherType<Int,String>;
@@ -39,6 +42,8 @@ extern class MySQLi
 	
 	public function multi_query(query:String):Bool;
 	
+	public function real_query(query:String):Bool;
+	
 	public function next_result():Bool;
 	
 	public function prepare(query:String):EitherType<MySQLi_STMT, Bool>;
@@ -46,6 +51,8 @@ extern class MySQLi
 	public function query(query:String, ?resultmode:Int):EitherType<MySQLi_Result, Bool>;
 	
 	public function select_db(dbname:String):Bool;
+	
+	public function set_charset(charset:String):Bool;
 	
 	public function store_result():EitherType<MySQLi_Result, Bool>;
 	

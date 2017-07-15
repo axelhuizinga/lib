@@ -31,7 +31,7 @@ class NArray
 {
 
 
-	public static function array(?init:Dynamic):Dynamic
+	public static function narray(?init:Dynamic):Dynamic
 	{
 		var arr:Dynamic = untyped __php__('array()');
 		if (init != null) {
@@ -42,6 +42,16 @@ class NArray
 				untyped __call__('array_push', arr, init);
 		}
 		return arr;
+	}
+	
+	public  static function get(arr:Dynamic, key:String):Dynamic{
+		return untyped __php__("$arr['$key']");
+	}
+	
+	public static function set(arr:Dynamic, key:String, value:Dynamic):Void {
+		untyped  __php__("$arr['$key']=$value");// arr[key] = value;
+		trace('$key=>$value:' );// arr[key]);
+		//trace('$key=>$value:' + untyped __php__('$array[$key]=$value'));// arr[key]);
 	}
 	
 	public static function push(arr:Dynamic, els:Dynamic):Int {
@@ -65,17 +75,27 @@ class NArray
 		);
 	}
 	
+	public inline static function array_shift(arr:Dynamic):Dynamic{
+		return untyped __call__('array_shift', arr);
+	}
+	
 	public static function toString(arr:Dynamic):String {
-		var s:String = '[';
+		var s:String = '';
+		untyped __php__("
+		$a = array();
+		foreach($arr as $k => $v )
+			array_push($a,'$k:$v');
+		$s = implode(',', $a); "
+		);
+		return '{$s}';
+	}
+/*		var s:String = '[';
 		untyped __php__("
 		$s = count($arr).':[';
 		for($i=0;$i<count($arr);$i++)
 			$s .= $arr[$i]. ',';
 		$s = substr($s, 0, strlen($s) - 1) + ']'; "
 		);
-		return s;
-	}
-/*
 	function removeAt($pos) {
 		if(array_key_exists($pos, $this->)) {
 			unset($this->[$pos]);

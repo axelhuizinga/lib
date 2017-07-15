@@ -56,30 +56,30 @@ enum Sizing
 }
 
 typedef Corners = { //CSS STYLE CLOCKWISE ORDER
-	var TR:Int;
-	var BR:Int;
-	var BL:Int;
-	var TL:Int;
+	var TR:Float;
+	var BR:Float;
+	var BL:Float;
+	var TL:Float;
 	var method:String;
 }
 
 typedef Border = { //CSS STYLE CLOCKWISE ORDER
-	@:optional var top:Int;
-	@:optional var right:Int;
-	@:optional var bottom:Int;
-	@:optional var left:Int;
+	@:optional var top:Float;
+	@:optional var right:Float;
+	@:optional var bottom:Float;
+	@:optional var left:Float;
 }
 
 typedef Dims = 
 {
-	@:optional var height:Int;
-	@:optional var width:Int;	
+	@:optional var height:Float;
+	@:optional var width:Float;	
 }
 
 typedef Rect = 
 {>Dims,
-	@:optional var left:Int;
-	@:optional var top:Int;
+	@:optional var left:Float;
+	@:optional var top:Float;
 }
 
 typedef DynaCell = 
@@ -91,11 +91,11 @@ typedef DynaCell =
 typedef DynaCellSize = 
 {
 	var cells:Array<BaseCell>;
-	var freeSpace:Int;
+	var freeSpace:Float;
 }
 
 typedef DynaBox = 
 {
 	var cLen:Int;
-	var freeSpace:Int;
+	var freeSpace:Float;
 }

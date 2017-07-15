@@ -1,4 +1,4 @@
-package jQuery;
+package js.jQuery;
 import jQuery.haxe.Plugin;
 import js.html.HtmlElement;
 
@@ -23,7 +23,7 @@ extern class Accordion implements Plugin
 		return untyped this.accordion(options);
 	}
 	
-	@:overload
+	//@:overload
 	public  function instance(?options:Dynamic):JQuery
 	{
 		return untyped this.accordion("instance");

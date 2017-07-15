@@ -5,6 +5,7 @@ import haxe.extern.EitherType;
  * ...
  * @author axel@cunity.me
  */
+@:native('mysqli_stmt')
 extern class MySQLi_STMT
 {
 

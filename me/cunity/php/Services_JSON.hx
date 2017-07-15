@@ -1,4 +1,4 @@
-package php;
+package me.cunity.php;
 
 /**
  * ...
@@ -17,7 +17,7 @@ extern class Services_JSON
 	public function encode(data:Dynamic):String;
 	
 	static function __init__():Void {
-		untyped __call__('require_once', '/srv/www/htdocs/php/JSON.php');
+		untyped __call__('require_once', 'php/JSON.php');
 	}
 	
 }

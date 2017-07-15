@@ -6,6 +6,7 @@ package me.cunity.app;
  */
 
 import haxe.CallStack;
+import haxe.ds.StringMap;
 import haxe.io.Path;
 import haxe.CallStack;
 import me.cunity.app.App;
@@ -14,7 +15,7 @@ import me.cunity.app.data.OracleDataDisplay;
 import me.cunity.app.data.OracleTypes;
 import me.cunity.debug.Out;
 
-#if (php||neko)
+#if (php||neko||nodejs)
 import sys.FileSystem;
 import sys.io.File;
 import me.cunity.app.data.OracleData;
@@ -24,6 +25,8 @@ import php.Lib;
 #elseif neko
 import neko.Web;
 import neko.Lib;
+#elseif nodejs
+
 #end
 #elseif js
 import js.Lib;
@@ -42,11 +45,9 @@ import me.cunity.app.data.Oracle;
 		return res;
 	}
 	
-	public function ask(question:String = ''):OracleDataDisplay
+	public function ask(?q:StringMap<String>):Void
 	{
-		//trace(CallStack.toString(CallStack.callStack()));
-
-		trace(question);
+		trace(q);
 		var oe:Oracle = new Oracle();//{ sign:1, change:0 };
 		oe.ask();
 		//return null;
@@ -55,13 +56,20 @@ import me.cunity.app.data.Oracle;
 			signIndex:oe.signIndex,
 			changeIndex:oe.changeIndex,
 			changeLines:oe.changeLines,
-			question:question,
+			question:q.get('question'),
 			uID:user.uID
 		});	
 		//var res = OracleData.saveOracleData(or);
-		Lib.print(Std.string(res));
+		Lib.print(Std.string({
+			date:oe.date,
+			signIndex:oe.signIndex,
+			changeIndex:oe.changeIndex,
+			changeLines:oe.changeLines,
+			question:q.get('question'),
+			uID:user.uID
+		}));
 		//#end 
-		return res;
+		//return res;
 	}
 	
 	public function getHistory(hC:HistoryConstraint = null):List<OracleDataDisplay>

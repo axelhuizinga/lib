@@ -56,13 +56,13 @@ class Row extends Container
 			return a.jQ.outerHeight(true) > b ? a.jQ.outerHeight(true):b;
 		},0));
 		
-		var usedSpace:Int = 0;//hold occupied width from NATIVE, FIXED, HFIXED, PERCENT, HPERCENT Sizing
-		var startX:Int = cells[0].jQ.position().left;
+		var usedSpace:Float = 0;//hold occupied width from NATIVE, FIXED, HFIXED, PERCENT, HPERCENT Sizing
+		var startX:Float = cells[0].jQ.position().left;
 		var rowCells:Array<BaseCell> = new Array();
 		var aX:Int = 0;
 		var row:Int = 0;
 		var dcs:DynaCellSize = null;
-		var freeSpace:Int = 0;
+		var freeSpace:Float = 0;
 		trace('fixedWidth:' + fixedWidth + ' sameHeight:' + sameHeight + ' maxH:' + maxH);
 		var c:BaseCell;
 		//if (sameHeight) 
@@ -117,12 +117,12 @@ class Row extends Container
 	function layoutRow(dcs:DynaCellSize):Void
 	{
 		//Lambda.iter(dcs.cells, function(c) { c.jQ.removeAttr('style'); } );//RESET HEIGHT
-		var maxH:Int = Math.ceil(Lambda.fold(dcs.cells, function(a, b) {
+		var maxH:Float = Math.ceil(Lambda.fold(dcs.cells, function(a, b) {
 			return a.jQ.outerHeight(true) > b ? a.jQ.outerHeight(true) :b;
 		}, 0));
 		dynaCells = new Array();
 		var rowCells:Array<BaseCell> = dcs.cells;
-		var usedSpace:Int = 0;
+		var usedSpace:Float = 0;
 		trace ('dcs.cells:' + dcs.cells.length + ' maxH:' + maxH + ' dcs.freeSpace:' + dcs.freeSpace);
 		var c:BaseCell = null;
 		for (c in dcs.cells)
@@ -146,7 +146,7 @@ class Row extends Container
 		var marginBorderPaddingSum = Math.ceil(Lambda.fold(dcs.cells, function(a, b) {
 			return a.jQ.marginWidth() + a.jQ.borderWidth() + a.jQ.paddingWidth()+ b;
 		},0));
-		var freeCellSpace:Int = Math.floor((dcs.freeSpace - marginBorderPaddingSum)  / Lambda.count(dcs.cells));
+		var freeCellSpace:Float = Math.floor((dcs.freeSpace - marginBorderPaddingSum)  / Lambda.count(dcs.cells));
 		trace(dcs.freeSpace + ' > 0) for (c in dcs.cells):' +  dcs.cells.length + ' marginBorderPaddingSum:' + marginBorderPaddingSum);
 		
 		if(dcs.freeSpace > 0) for (c in dcs.cells)
@@ -188,8 +188,8 @@ class Row extends Container
 		var marginBorderPaddingSum = Math.round(Lambda.fold(dcs.cells, function(a, b) {
 			return a.jQ.marginWidth() + a.jQ.borderWidth() + a.jQ.paddingWidth() + b;
 		},0));
-		//var freeCellSpace:Int = Math.round((dcs.freeSpace - marginBorderPaddingSum)  / Lambda.count(dcs.cells));
-		var freeCellSpace:Int = Math.round(dcs.freeSpace / Lambda.count(dcs.cells));
+		//var freeCellSpace:Float = Math.round((dcs.freeSpace - marginBorderPaddingSum)  / Lambda.count(dcs.cells));
+		var freeCellSpace:Float = Math.round(dcs.freeSpace / Lambda.count(dcs.cells));
 		trace ('dcs.cells.length:' + dcs.cells.length + ' freeCellSpace:' + freeCellSpace + ' marginBorderPaddingSum:' + marginBorderPaddingSum);
 		var c:BaseCell;
 		for (c in dcs.cells)

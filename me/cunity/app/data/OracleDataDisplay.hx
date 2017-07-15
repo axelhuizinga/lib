@@ -24,6 +24,7 @@ class OracleDataDisplay
 
 	public function new(data:OracleDisplayData) 
 	{
+		trace(data);
 		date = data.date;
 		signIndex = data.signIndex;
 		changeIndex = data.changeIndex;

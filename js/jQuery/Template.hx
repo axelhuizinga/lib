@@ -1,6 +1,6 @@
-package jQuery;
+package js.jQuery;
 
-import haxe.ds.Either;
+import haxe.extern.EitherType;
 import jQuery.haxe.Plugin;
 import js.html.Element;
 
@@ -32,7 +32,8 @@ extern class Template implements Plugin
 		return untyped this.update();
 	}
 	
-	static public function template(name:String, template:haxe.ds.Either<String,JQuery>):JQuery
+	static public function template(name:String, template: String):JQuery
+	//static public function template(name:String, template: EitherType<String,JQuery>):JQuery
 	{
 		return untyped this.template(name, template);
 	}

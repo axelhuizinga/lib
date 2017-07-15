@@ -2,7 +2,7 @@ package me.cunity.php;
 import haxe.PosInfos;
 import php.Web;
 
-
+@:keep
 class Debug
 {
 	public static var logFile:String;

@@ -1,12 +1,16 @@
 package me.cunity.php.db;
-
+#if php
 import php.NativeArray;
+#elseif neko
+import neko.NativeArray;
+#end
 import me.cunity.php.db.MySQLi;
 
 /**
  * ...
  * @author axel@cunity.me
  */
+@:native('mysqli_result')
 extern class MySQLi_Result
 {
 

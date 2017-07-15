@@ -52,7 +52,7 @@ class Ui
 		}
 		
 		var tpl:Template = new Template(tplContent);
-		//App.errLog(prop);
+		App.errLog(prop);
 		//App.errLog(tplContent);
 		//Lib.print(tpl.execute(prop));
 		try
@@ -67,8 +67,9 @@ class Ui
 		//trace('hmmm');
 	}
 	
-	public static function print(template:String, prop:Dynamic = null):String
+	/*public static function print(template:String, prop:Dynamic = null):String
 	{
+		trace(prop);
 		var tpl:Template = new Template(File.getContent('templates/' +template + '.html'));
 		try
 		{
@@ -79,5 +80,5 @@ class Ui
 			trace(ex);
 		}
 		return null;
-	}
+	}*/
 }

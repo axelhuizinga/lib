@@ -2,6 +2,7 @@ package me.cunity.js.layout;
 //import jQuery.JQuery;
 #if js
 import jQuery.*;
+import js.jQuery.JHelper.J;
 #end
 
 /*
@@ -74,11 +75,9 @@ class Container extends BaseCell
 	
 	public function addChildren()
 	{
-		jQ.children().each(function()
-		{
-			var jC:JQuery = JQuery.cur;
-			if (jC.get()[0].nodeName != 'TBODY' && jC.get()[0].nodeName != 'CUFON')//SKIP TABLES FOR LAYOUT
-				cells.push(BaseCell.create(jC, this));
+		jQ.children().each(function(i,el){
+			if (el.nodeName != 'TBODY' && el.nodeName != 'CUFON')//SKIP TABLES FOR LAYOUT
+				cells.push(BaseCell.create(J(el), this));
 		});		
 	}
 	
@@ -100,7 +99,7 @@ class Container extends BaseCell
 		for (c in cells)
 		{
 			if (Std.is(c, Container))
-				bc = cast (c).find(jq);
+				bc = cast(c, Container).find(jq);
 			if (bc != null)
 				return bc;
 		}
@@ -112,10 +111,10 @@ class Container extends BaseCell
 		dynaCells = new Array();
 		maxW = maxH  = cW = cH = 0;
 		getMaxDims();
-		//trace(jQ.attr('id') + ' cells.length:' + cells.length + ' maxContentBox.height:' + maxContentBox.height);
+		trace(jQ.attr('id') + ' cells.length:' + cells.length + ' maxContentBox.height:' + maxContentBox.height);
 		//applyMargin(); TODO?
 		
-		var fixedSum:Int = 0;
+		var fixedSum:Float = 0;
 		var c:BaseCell;
 		for (c in cells) 
 		{
@@ -132,7 +131,7 @@ class Container extends BaseCell
 		}
 		if (isScreen) trace('cells:' + cells.length );
 		
-		var freeSpace:Int = Math.floor((fixedHeight ? jQ.innerHeight() - jQ.paddingHeight():maxContentBox.height)) - fixedSum;
+		var freeSpace:Float = (fixedHeight ? jQ.innerHeight() - jQ.paddingHeight():maxContentBox.height) - fixedSum;
 		if (isScreen) trace('freeSpace:' + freeSpace + ' fixedSum:' + fixedSum + ' box:' + jQ.height());
 		dynaCells.sort(bigFirst);
 		var dcs:DynaCellSize = { cells:dynaCells, freeSpace:freeSpace };
@@ -174,7 +173,7 @@ class Container extends BaseCell
 		var marginBorderPaddingSum = Math.ceil(Lambda.fold(dcs.cells, function(a, b) {
 			return a.jQ.marginHeight() + a.jQ.borderHeight() + a.jQ.paddingHeight()+ b;
 		},0));
-		var freeSpace:Int = Math.floor((dcs.freeSpace - marginBorderPaddingSum)  / Lambda.count(dcs.cells));
+		var freeSpace:Float = Math.floor((dcs.freeSpace - marginBorderPaddingSum)  / Lambda.count(dcs.cells));
 		for (c in dcs.cells)
 		{
 			if (c.jQ.height() >= freeSpace )

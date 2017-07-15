@@ -1,4 +1,4 @@
-package;
+package js;
 
 /**
  * ...
@@ -39,7 +39,7 @@ typedef Helper = Dynamic;
 	public static function registerDecorator(name:String, helper:Helper):Void;
 	public static function unregisterDecorator(name:String):Void;	 	
 	
-	//public function SafeString(html:String):String;
+	public static function SafeString(html:String):String;
 	
 	public static function createFrame(data:Dynamic):Void;
 	public static function create():Handlebars;

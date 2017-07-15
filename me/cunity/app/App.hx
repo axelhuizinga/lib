@@ -41,7 +41,7 @@ typedef ScreenList = {
 	public var controller:App;
 	public var path:String;
 	public var output:String;
-	public var param:Map<String, String>;
+	public var param:StringMap<String>;
 	public var root:String;// APP ROOT DIR RELATIVE 2 DOCUMENTROOT
 	//public var server:Map<String, String>;
 	public var server:StringMap<String>;
@@ -90,14 +90,16 @@ typedef ScreenList = {
 	public function dispatch():Void
 	{
 		#if !js
+		/*SERVER SIDE ONLY METHOD*/
 		var uri:String = Web.getURI();
 		App.errLog( ' root:' + root + ' uri:' + uri + ' redirect:' +  server.get('REDIRECT_URI'));
 		if (root !=  uri)
 		{
 			uri = ~/\/$/.replace(uri, '');//REMOVE LAST /
 			path =  uri.replace(root, '');
-			param = new Map();
+			param = new StringMap();
 			var parameters:Array<String> = path.split('/');
+			trace(parameters.toString());
 			if (parameters.length > 0 && parameters[0] != '')
 			{
 				path = parameters.shift();
@@ -106,16 +108,16 @@ typedef ScreenList = {
 					param.set(parameters.shift(), parameters.shift());
 				}
 			}			
-			errLog(path +':' + parameters.toString());
+			errLog(path +':' + param.toString());
 		}
 		else
 			path = 'app';
 		errLog(path + (Reflect.isFunction(Reflect.field(this, path)) ? 'yeah':'nono :(') );
 		
 		var state:String = server.get('PHP_SELF').substr(0, server.get('PHP_SELF').lastIndexOf('/'));
-		
-		if (Reflect.isFunction(Reflect.field(this, path)))
-			Reflect.callMethod(this, Reflect.field(this, path), [param]);
+		var method:Dynamic = Reflect.field(this, path);
+		if (Reflect.isFunction(method))
+			Reflect.callMethod(this, method, [param]);
 		else
 		{
 			var uP = { root:root, path:path, uID:user.uID, userName:user.userName, state:state};
