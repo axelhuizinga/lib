@@ -1,6 +1,6 @@
 package js;
 
-import jQuery.*;
+import js.jquery.*;
 
 /**
  * ...

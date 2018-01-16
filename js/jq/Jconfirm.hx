@@ -1,4 +1,4 @@
-package js.jQuery;
+package js.jq;
 
 
 /**

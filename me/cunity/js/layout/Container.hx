@@ -1,8 +1,9 @@
 package me.cunity.js.layout;
+import js.jq.JHelper;
 //import jQuery.JQuery;
 #if js
 import jQuery.*;
-import js.jQuery.JHelper.J;
+import js.jq.JHelper.J;
 #end
 
 /*

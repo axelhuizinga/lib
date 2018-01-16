@@ -1,4 +1,4 @@
-package js.jQuery;
+package js.jq;
 
 import jQuery.haxe.Plugin;
 import js.JQuery;

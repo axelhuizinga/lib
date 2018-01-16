@@ -27,12 +27,12 @@ import neko.Lib;
 import js.Boot;
 
 #if !(nodejs || js_kit)
-import js.jQuery.JHelper;
+import js.jq.JHelper;
 import js.html.Window;
 import js.Browser;
 import js.html.Element;
-import jQuery.*;
-import js.jQuery.JHelper.J;
+import js.jquery.*;
+import js.jq.JHelper.J;
 #else
 import me.cunity.debug.Tracer;
 import js.Node;
@@ -181,7 +181,7 @@ class Out{
 			case LOG:
 				#if js
 				#if !(nodejs||js_kit)
-				JQueryStatic.post(Browser.window.location.protocol + '//' + Browser.window.location.host + '/inc/functions.php',{log:1,m:msg});
+				JQuery.post(Browser.window.location.protocol + '//' + Browser.window.location.host + '/inc/functions.php',{log:1,m:msg});
 				#end
 				#else
 				#end				

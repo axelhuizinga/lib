@@ -1,8 +1,8 @@
-package js.jQuery;
+package js.jq;
 import js.html.Window;
 import js.html.Element;
 import js.html.Node;
-import jQuery.JQuery;
+import js.jquery.JQuery;
 
 /**
  * @author axel@cunity.me
