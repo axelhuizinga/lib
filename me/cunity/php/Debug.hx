@@ -23,4 +23,10 @@ class Debug
 		//untyped __call__('trace', v, info);
 	}
 	
+	public static function safeLog(m:String):String
+	{
+		//m = ~/ TODO: FILTER PASSWORDS
+		return m;
+	}
+	
 }

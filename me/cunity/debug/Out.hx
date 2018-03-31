@@ -39,7 +39,7 @@ import js.Node;
 #end
 #end
 
-using me.cunity.tools.ArrayTools;
+//using me.cunity.tools.ArrayTools;
 using Lambda;
 
 enum DebugOutput {

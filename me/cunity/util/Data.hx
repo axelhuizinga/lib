@@ -9,7 +9,7 @@ import haxe.ds.StringMap;
  class Data
 {
 
-	 public static function copy(source:Dynamic) 
+	public static function copy(source:Dynamic) 
 	{
 		var c:Dynamic = { };
 		var fields:Array<String> = Reflect.fields(source);

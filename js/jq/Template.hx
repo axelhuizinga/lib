@@ -31,7 +31,7 @@ extern class Template implements js.jquery.Plugin
 		return untyped this.update();
 	}*/
 	
-	/*static public function template(name:String, template: String):JQuery
+	static public function template(name:String, template: String):JQuery
 	//static public function template(name:String, template: EitherType<String,JQuery>):JQuery
 	{
 		return untyped this.template(name, template);
@@ -41,5 +41,5 @@ extern class Template implements js.jquery.Plugin
 	{
 		return untyped this.tmpl(compiledName, data);
 		//return untyped Browser.window.$.tmpl(compiledName, data);
-	}*/
+	}
 }
