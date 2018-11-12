@@ -9,19 +9,19 @@ package me.cunity.effects;
  *
  * @author ...
  */
-
+#if flash
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.external.ExternalInterface;
 import flash.events.MouseEvent;
 import flash.events.Event;
 import flash.Lib;
-
+#end
 typedef PropParams = {
 	//action:String,
 	duration:Int,
 	actual:Dynamic,
-	final:Dynamic,
+	final_:Dynamic,
 	finish:Int,
 	initial:Dynamic,
 	prop:String
@@ -33,7 +33,7 @@ class TweenBack extends Sprite{
 	var duration:Int;
 	var finish:Int;
 	var actual:Float;
-	//var final:Float;
+	//var final_:Float;
 	//var initial:Float;
 	var start:Int;
 	var timeToGoBack:Float;
@@ -77,14 +77,14 @@ class TweenBack extends Sprite{
 		//finish = Math.floor(duration * (1 - dOb.alpha) );
 		for (p in props) {
  			p.actual = Reflect.field(dOb, p.prop);
-			current = p.final - p.actual;
-			if (current == 0) {// already final
+			current = p.final_ - p.actual;
+			if (current == 0) {// already final_
 				p.finish = p.duration;
 			}
 			else{
-				diff = p.final - p.initial;		
+				diff = p.final_ - p.initial;		
 				if (diff==0)
-					throw('initial and final have to be different!');
+					throw('initial and final_ have to be different!');
 				p.finish = Math.floor(p.duration *  Math.abs(current/diff));
 			}
 		}
@@ -99,14 +99,14 @@ class TweenBack extends Sprite{
 		start  = Lib.getTimer();		
 		for (p in props) {
  			p.actual = Reflect.field(dOb, p.prop);
-			current = p.final - p.actual;
-			if (current == 0) {// already final
+			current = p.final_ - p.actual;
+			if (current == 0) {// already final_
 				p.finish = p.duration;
 			}
 			else{
-				diff = p.final - p.initial;		
+				diff = p.final_ - p.initial;		
 				if (diff==0)
-					throw('initial and final have to be different!');
+					throw('initial and final_ have to be different!');
 				p.finish = Math.floor(p.duration *  1 - Math.abs(current/diff));
 			}			
 			//p.finish = Math.floor(p.duration * p.actual);
@@ -120,14 +120,14 @@ class TweenBack extends Sprite{
 		var current:Dynamic = null;		
 		for (p in props) {
  			p.actual = Reflect.field(dOb, p.prop);
-			current = p.final - p.actual;
-			if (current == 0) {// already final
+			current = p.final_ - p.actual;
+			if (current == 0) {// already final_
 				p.finish = p.duration;
 			}
 			else{
-				diff = p.final - p.initial;		
+				diff = p.final_ - p.initial;		
 				if (diff==0)
-					throw('initial and final have to be different!');
+					throw('initial and final_ have to be different!');
 				p.finish = Math.floor(p.duration *  Math.abs(current/diff));
 			}
 		}
@@ -145,14 +145,14 @@ class TweenBack extends Sprite{
 			case 'goPermanent':
 				for (p in props) {
 					p.actual = Reflect.field(dOb, p.prop);
-					trace(action +'-' +p.actual +':' + p.final +':' +timeDiff +' < '+p.finish);
+					trace(action +'-' +p.actual +':' + p.final_ +':' +timeDiff +' < '+p.finish);
 					if (timeDiff < p.finish) {
 						finished = false;
 						//var actTime:Int = (timeDiff > p.finish) ? p.finish :timeDiff;
-						Reflect.setField(dOb, p.prop, Tween.easeOut(timeDiff, p.initial, p.final, p.finish));					
+						Reflect.setField(dOb, p.prop, Tween.easeOut(timeDiff, p.initial, p.final_, p.finish));					
 					}
 					else {
-						Reflect.setField(dOb, p.prop, p.final);
+						Reflect.setField(dOb, p.prop, p.final_);
 					}
 				}
 				if(finished)
@@ -160,14 +160,14 @@ class TweenBack extends Sprite{
 			case 'go':
 				for (p in props) {
 					p.actual = Reflect.field(dOb, p.prop);
-					trace(action +'-' +p.actual +':' + p.final +':' +timeDiff +' < '+p.finish);
+					trace(action +'-' +p.actual +':' + p.final_ +':' +timeDiff +' < '+p.finish);
 					if (timeDiff < p.finish) {
 						finished = false;
 						//var actTime:Int = (timeDiff > p.finish) ? p.finish :timeDiff;
-						Reflect.setField(dOb, p.prop, Tween.easeOut(timeDiff, p.initial, p.final, p.finish));					
+						Reflect.setField(dOb, p.prop, Tween.easeOut(timeDiff, p.initial, p.final_, p.finish));					
 					}					
 					else {
-						Reflect.setField(dOb, p.prop, p.final);
+						Reflect.setField(dOb, p.prop, p.final_);
 					}
 				}
 				if(finished){
@@ -179,11 +179,11 @@ class TweenBack extends Sprite{
 			case 'goBack':
 				for (p in props) {
 					p.actual = Reflect.field(dOb, p.prop);
-					trace(action +'-' +p.actual +':' + p.final +':' +timeDiff +' < '+p.finish);
+					trace(action +'-' +p.actual +':' + p.final_ +':' +timeDiff +' < '+p.finish);
 					if (timeDiff < p.finish) {
 						finished = false;
 						//var actTime:Int = (timeDiff > p.finish) ? p.finish :timeDiff;
-						Reflect.setField(dOb, p.prop, Tween.easeOut(timeDiff, p.final, p.initial, p.finish));					
+						Reflect.setField(dOb, p.prop, Tween.easeOut(timeDiff, p.final_, p.initial, p.finish));					
 					}
 					else {
 						Reflect.setField(dOb, p.prop, p.initial);
@@ -217,13 +217,13 @@ class TweenBack extends Sprite{
 	public static function easeOut (t :Float, b :Float, c :Float, d :Float) :Float
 	{ /*t:diff
 		b:initial
-		c:final
+		c:final_
 		d:finish
 		*/var ot = t;
 		//		var res:Float =  -c * (t /= d) * (t - 2) + b;
 		var res:Float = b + (c - b) * (t /= d);
 		if(ot<50)
-		trace('final:' + c + ' initial:' + b + ' time:' + ot + ' finish:' + d + '  current:' + res);
+		trace('final_:' + c + ' initial:' + b + ' time:' + ot + ' finish:' + d + '  current:' + res);
 		return res;
 			//return -c * (t /= d) * (t - 2) + b;
 	}

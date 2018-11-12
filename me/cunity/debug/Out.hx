@@ -5,6 +5,9 @@ import haxe.Log;
 import haxe.PosInfos;
 import haxe.CallStack;
 import Type;
+#if (haxe_ver >= 4)
+import php.Syntax;
+#end
 
 #if flash
 import flash.Boot;
@@ -120,7 +123,11 @@ class Out{
 		switch(traceTarget)
 		{				
 			case NATIVE:
-				untyped __call__('error_log', msg);
+				#if (haxe_ver < 4)
+				untyped __call__('error_log({0})', msg);
+				#else
+				Syntax.code('error_log({0})', msg);
+				#end				
 			case CONSOLE:
 				Lib.print(msg + "\r\n");
 			case HAXE:								
@@ -334,17 +341,32 @@ class Out{
 	}
 #elseif php
 	public static function printCDATA(data:String, ?i:PosInfos) {
-		_trace('<pre>' + untyped __call__('htmlspecialchars ', data) + '</pre>', i);
+		_trace('<pre>' + 
+		#if (haxe_ver < 4)
+		untyped __call('htmlspecialchars'
+		#else
+		Syntax.code('htmlspecialchars({0})'
+		#end
+		,data) + '</pre>', i);
 	}
 	
 	public static function dumpVar(v:Dynamic, ?i:PosInfos)
 	{
-		untyped __php__("
+		var ret:String = '';
+		#if (haxe_ver < 4)
+		ret = untyped __php__('
 			ob_start();
 			print_r($v);
-			$ret =  ob_get_clean();
-		");
-		_trace(untyped ret);
+			ob_get_clean();
+		');
+		#else
+		ret = Syntax.code('
+			ob_start();
+			print_r({0});
+			ob_get_clean();
+		', v);
+		#end
+		_trace(ret);
 	}
 #end
 
@@ -384,36 +406,6 @@ class Out{
 		
 		_trace(m, i);
 	}
-	
-	/*public static function dumpObjectRsafe(ob:Dynamic, ?i:haxe.PosInfos) 
-	{
-		var tClass = Type.getClass(ob);
-		var m:String = 'dumpObjectRsafe:' + ( ob != null ? Type.getClass(ob) :ob) + '\n';
-		var names:Array<String> = new Array();
-		//trace(names.toString());
-		names = (Type.getClass(ob) != null) ?
-			Type.getInstanceFields(Type.getClass(ob)):
-			Reflect.fields(ob);
-		if (Type.getClass(ob) != null)
-			m =  Type.getClassName(Type.getClass(ob))+':\n';
-			
-			for (name in names) {
-				if(skipFields
-				try {
-					var t = Std.string(Type.typeof(Reflect.field(ob, name)));
-					if ( skipFunctions && t == 'TFunction')
-					null;
-					if (name == 'parentView' || name == 'ContextMenu' || name == 'cMenu' )
-					m += name + ':' + ob.parentView.id+ '\n';
-					else
-					m += name + ':' +Reflect.field(ob,name) + ':' + t + '\n';
-				}
-				catch (ex:Dynamic) {
-					m += name + ':' + ex;
-				}
-			}		
-		_trace(m, i);
-	}*/
 	
 	public static function dumpStack(sA:Array<StackItem>,  ?i:PosInfos):Void
 	{

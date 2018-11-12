@@ -26,6 +26,8 @@ extern class MySQLi_Result
 	
 	public function fetch_array(resulttype:Int = 3):NativeArray;
 	
+	public function fetch_row():NativeArray;
+	
 	
 	
 }
