@@ -6,7 +6,7 @@ import haxe.PosInfos;
 import haxe.CallStack;
 import Type; 
 #if (haxe_ver >= 4)
-import php.Syntax;
+import #if js js.Syntax #elseif php php.Syntax #end;
 #end
 
 #if flash
@@ -30,12 +30,12 @@ import neko.Lib;
 import js.Boot;
 
 #if !(nodejs || js_kit)
-import js.jq.JHelper;
+//import js.jq.JHelper;
 import js.html.Window;
 import js.Browser;
 import js.html.Element;
 import js.jquery.*;
-import js.jq.JHelper.J;
+//import js.jq.JHelper.J;
 #else
 import me.cunity.debug.Tracer;
 import js.Node;
