@@ -188,7 +188,7 @@ class Out{
 			case LOG:
 				#if js
 				#if !(nodejs||js_kit)
-				JQuery.post(Browser.window.location.protocol + '//' + Browser.window.location.host + '/inc/functions.php',{log:1,m:msg});
+				//JQuery.post(Browser.window.location.protocol + '//' + Browser.window.location.host + '/inc/functions.php',{log:1,m:msg});
 				#end
 				#else
 				#end				
@@ -247,23 +247,7 @@ class Out{
 	}
 #elseif (js && !(nodejs || js_kit))
 //	BROWSER WINDOW ONLY
-	public static function dumpLayout(dI:Element, ?recursive:Null<Bool> = false, ?i :haxe.PosInfos)
-	{
-		dumpJLayout(new JQuery(dI), recursive, i);
-	}
-	
-	public static function dumpJLayout(jQ:JQuery, ?recursive:Null<Bool> = false, ?i :haxe.PosInfos)
-	{
-		//trace(jQ.length);
-		if (jQ.length == 0)
-			return;
-		var m:String = jQ.attr('id') + ' left:' + jQ.position().left + ' top:' + jQ.position().top +' width:' + jQ.width() + 
-		' height:' + jQ.height() + ' visibility:' + jQ.css('visibility') + ' display:' + jQ.css('display') + ' position:' + jQ.css('position') 
-		+ ' class:' + jQ.attr('class') +' overflow:' + jQ.css('overflow') + ' zIndex:' + jQ.css('z-index') + ' opacity:' + jQ.css('opacity');
-		_trace(m, i);
-		if (recursive && jQ.parent().attr('id') != 'bgBox')
-			dumpJLayout(jQ.parent(), true, i);
-	}
+
 	
 	public static function dumpObjectRSafe(root:Dynamic, recursive:Bool = false, ?i:PosInfos)
 	{
