@@ -27,12 +27,11 @@ import neko.Lib;
 import js.Boot;
 
 #if !(nodejs || js_kit)
-import js.jq.JHelper;
+//import me.cunity.js.JHelper;
 import js.html.Window;
 import js.Browser;
 import js.html.Element;
-import js.jquery.*;
-import js.jq.JHelper.J;
+
 #else
 import me.cunity.debug.Tracer;
 import js.Node;
@@ -59,7 +58,6 @@ class Out{
 	public static var traceToConsole:Bool = false;
 	public static var traceTarget:DebugOutput = NATIVE;
 	public static var aStack:Void->Array<StackItem> = CallStack.callStack;
-	public static var logg:Tracer;
 	public static var dumpedObjects:Array<Dynamic>;
 #if php
 	public static var log:FileOutput;
@@ -74,6 +72,7 @@ class Out{
 	
 #elseif js_kit
 	
+	public static var logg:Tracer;
 	public static function init() { 
 		traceTarget = DebugOutput.CONSOLE;
 		Log.trace = Out._trace;
@@ -181,7 +180,7 @@ class Out{
 			case LOG:
 				#if js
 				#if !(nodejs||js_kit)
-				JQuery.post(Browser.window.location.protocol + '//' + Browser.window.location.host + '/inc/functions.php',{log:1,m:msg});
+				//JQuery.post(Browser.window.location.protocol + '//' + Browser.window.location.host + '/inc/functions.php',{log:1,m:msg});
 				#end
 				#else
 				#end				
@@ -240,23 +239,7 @@ class Out{
 	}
 #elseif (js && !(nodejs || js_kit))
 //	BROWSER WINDOW ONLY
-	public static function dumpLayout(dI:Element, ?recursive:Null<Bool> = false, ?i :haxe.PosInfos)
-	{
-		dumpJLayout(new JQuery(dI), recursive, i);
-	}
-	
-	public static function dumpJLayout(jQ:JQuery, ?recursive:Null<Bool> = false, ?i :haxe.PosInfos)
-	{
-		//trace(jQ.length);
-		if (jQ.length == 0)
-			return;
-		var m:String = jQ.attr('id') + ' left:' + jQ.position().left + ' top:' + jQ.position().top +' width:' + jQ.width() + 
-		' height:' + jQ.height() + ' visibility:' + jQ.css('visibility') + ' display:' + jQ.css('display') + ' position:' + jQ.css('position') 
-		+ ' class:' + jQ.attr('class') +' overflow:' + jQ.css('overflow') + ' zIndex:' + jQ.css('z-index') + ' opacity:' + jQ.css('opacity');
-		_trace(m, i);
-		if (recursive && jQ.parent().attr('id') != 'bgBox')
-			dumpJLayout(jQ.parent(), true, i);
-	}
+
 	
 	public static function dumpObjectRSafe(root:Dynamic, recursive:Bool = false, ?i:PosInfos)
 	{
@@ -384,36 +367,6 @@ class Out{
 		
 		_trace(m, i);
 	}
-	
-	/*public static function dumpObjectRsafe(ob:Dynamic, ?i:haxe.PosInfos) 
-	{
-		var tClass = Type.getClass(ob);
-		var m:String = 'dumpObjectRsafe:' + ( ob != null ? Type.getClass(ob) :ob) + '\n';
-		var names:Array<String> = new Array();
-		//trace(names.toString());
-		names = (Type.getClass(ob) != null) ?
-			Type.getInstanceFields(Type.getClass(ob)):
-			Reflect.fields(ob);
-		if (Type.getClass(ob) != null)
-			m =  Type.getClassName(Type.getClass(ob))+':\n';
-			
-			for (name in names) {
-				if(skipFields
-				try {
-					var t = Std.string(Type.typeof(Reflect.field(ob, name)));
-					if ( skipFunctions && t == 'TFunction')
-					null;
-					if (name == 'parentView' || name == 'ContextMenu' || name == 'cMenu' )
-					m += name + ':' + ob.parentView.id+ '\n';
-					else
-					m += name + ':' +Reflect.field(ob,name) + ':' + t + '\n';
-				}
-				catch (ex:Dynamic) {
-					m += name + ':' + ex;
-				}
-			}		
-		_trace(m, i);
-	}*/
 	
 	public static function dumpStack(sA:Array<StackItem>,  ?i:PosInfos):Void
 	{
