@@ -85,7 +85,7 @@ class Screen extends Container
 	
 	public var frame:Frame;
 	public var firstScreenID:String;
-	public var userState:AuthStatus;
+	public var UserProps:AuthStatus;
 	public var userStateChange:Bool;
 	public var menu:Menu;
 	public var menuHandle:Shape;

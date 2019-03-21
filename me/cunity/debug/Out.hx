@@ -19,6 +19,7 @@ import sys.io.FileOutput;
 #end
 #if php
 import php.Lib;
+import php.Syntax;
 #elseif neko
 import neko.Lib;
 #end
@@ -27,26 +28,26 @@ import neko.Lib;
 import js.Boot;
 
 #if !(nodejs || js_kit)
-import js.jQuery.JHelper;
+//import js.jq.JHelper;
 import js.html.Window;
 import js.Browser;
 import js.html.Element;
-import jQuery.*;
-import js.jQuery.JHelper.J;
+import js.jquery.*;
+//import js.jq.JHelper.J;
 #else
 import me.cunity.debug.Tracer;
 import js.Node;
 #end
 #end
 
-using me.cunity.tools.ArrayTools;
+//using me.cunity.tools.ArrayTools;
 using Lambda;
 
 enum DebugOutput {
 	CONSOLE;
 	HAXE;
 	NATIVE;
-	LOG;
+	//LOG;
 }
 
 @:keep 
@@ -120,12 +121,12 @@ class Out{
 		switch(traceTarget)
 		{				
 			case NATIVE:
-				untyped __call__('error_log', msg);
+				Syntax.call("error_log({0})", msg);
 			case CONSOLE:
 				Lib.print(msg + "\r\n");
 			case HAXE:								
 				php.Lib.print(StringTools.htmlEscape(msg) + '<br/>');
-			case LOG:
+			//case LOG:
 		}				
 
 		if (once)
@@ -178,14 +179,14 @@ class Out{
 						d.innerHTML += msg;
 					#end
 				}
-			case LOG:
+			/*case LOG:
 				#if js
 				#if !(nodejs||js_kit)
-				JQueryStatic.post(Browser.window.location.protocol + '//' + Browser.window.location.host + '/inc/functions.php',{log:1,m:msg});
+				JQuery.post(Browser.window.location.protocol + '//' + Browser.window.location.host + '/inc/functions.php',{log:1,m:msg});
 				#end
 				#else
 				#end				
-
+*/
 		}
 		#end			
 	}
@@ -240,6 +241,7 @@ class Out{
 	}
 #elseif (js && !(nodejs || js_kit))
 //	BROWSER WINDOW ONLY
+	#if JQ
 	public static function dumpLayout(dI:Element, ?recursive:Null<Bool> = false, ?i :haxe.PosInfos)
 	{
 		dumpJLayout(new JQuery(dI), recursive, i);
@@ -257,6 +259,7 @@ class Out{
 		if (recursive && jQ.parent().attr('id') != 'bgBox')
 			dumpJLayout(jQ.parent(), true, i);
 	}
+	#end
 	
 	public static function dumpObjectRSafe(root:Dynamic, recursive:Bool = false, ?i:PosInfos)
 	{
@@ -334,16 +337,16 @@ class Out{
 	}
 #elseif php
 	public static function printCDATA(data:String, ?i:PosInfos) {
-		_trace('<pre>' + untyped __call__('htmlspecialchars ', data) + '</pre>', i);
+		_trace('<pre>' + Syntax.call("htmlspecialchars({0})", data) + '</pre>', i);
 	}
 	
 	public static function dumpVar(v:Dynamic, ?i:PosInfos)
 	{
-		untyped __php__("
+		Syntax.code("
 			ob_start();
-			print_r($v);
+			print_r({0});
 			$ret =  ob_get_clean();
-		");
+		", v);
 		_trace(untyped ret);
 	}
 #end
@@ -384,36 +387,6 @@ class Out{
 		
 		_trace(m, i);
 	}
-	
-	/*public static function dumpObjectRsafe(ob:Dynamic, ?i:haxe.PosInfos) 
-	{
-		var tClass = Type.getClass(ob);
-		var m:String = 'dumpObjectRsafe:' + ( ob != null ? Type.getClass(ob) :ob) + '\n';
-		var names:Array<String> = new Array();
-		//trace(names.toString());
-		names = (Type.getClass(ob) != null) ?
-			Type.getInstanceFields(Type.getClass(ob)):
-			Reflect.fields(ob);
-		if (Type.getClass(ob) != null)
-			m =  Type.getClassName(Type.getClass(ob))+':\n';
-			
-			for (name in names) {
-				if(skipFields
-				try {
-					var t = Std.string(Type.typeof(Reflect.field(ob, name)));
-					if ( skipFunctions && t == 'TFunction')
-					null;
-					if (name == 'parentView' || name == 'ContextMenu' || name == 'cMenu' )
-					m += name + ':' + ob.parentView.id+ '\n';
-					else
-					m += name + ':' +Reflect.field(ob,name) + ':' + t + '\n';
-				}
-				catch (ex:Dynamic) {
-					m += name + ':' + ex;
-				}
-			}		
-		_trace(m, i);
-	}*/
 	
 	public static function dumpStack(sA:Array<StackItem>,  ?i:PosInfos):Void
 	{
