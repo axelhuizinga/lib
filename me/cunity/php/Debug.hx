@@ -17,7 +17,7 @@ class Debug
 	
 	public static function _trace(v : Dynamic, ?i : PosInfos)
 	{
-		var info = if( i != null ) i.fileName+":"+i.methodName +":"+i.lineNumber+":" else "";		
+		var info:String = if( i != null ) i.fileName+":"+i.methodName +":"+i.lineNumber+":" else "";		
 		//untyped __call__('edump',  info + ':' + v);
 		//untyped __call__('error_log',  info + ':' + v);
 		
