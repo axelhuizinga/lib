@@ -322,7 +322,7 @@ class Out{
 					}
 					else
 					{
-						var _o = untyped __js__("root[f]");
+						var _o = untyped js.Syntax.code("root[f]");
 						if ( ! Lambda.has(dumpedObjects, _o))
 						{						
 							_dumpObjectTree( _o, Type.typeof(_o), true, i);
